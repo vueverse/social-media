@@ -1,4 +1,4 @@
-#Social-Media: A Full-Featured Social Media Application Inspired by Instagram 🌟
+# Social-Media: A Full-Featured Social Media Application Inspired by Instagram 🌟
 Social-Media is a comprehensive social media application designed to replicate and extend the core functionality of Instagram, providing a modern, scalable, and high-performance platform for social interaction. The application includes features such as user profiles, posts, stories, messaging, notifications, and more. Built with a microservices architecture, it leverages cutting-edge technologies like Docker, Kubernetes, reactive programming, and event-driven design patterns.
 
 **Key Features** 🚀
@@ -12,7 +12,7 @@ Social-Media is a comprehensive social media application designed to replicate a
 **Content Moderation:** Report inappropriate content and manage blocked users.
 **Analytics:** Gain insights into engagement metrics, such as reach, likes, and follower demographics.
 **High Performance:** Optimized for speed and scalability with reactive programming and event-driven architecture.
-**Architecture and Technologies **🏗️
+## Architecture and Technologies 🏗️
 The backend is built using Java, Kotlin (Spring Boot), and Go, with a focus on microservices architecture. Each microservice is designed to be domain-centric and follows the principles of Domain-Driven Design (DDD) to ensure modularity, scalability, and ease of maintenance.
 
 **Backend Stack:**
