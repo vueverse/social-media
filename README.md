@@ -36,7 +36,7 @@ The application is designed with a security-first approach to protect user data 
 **API Security:** Protects APIs from common vulnerabilities like SQL Injection, Cross-Site Scripting (XSS), and Cross-Site Request Forgery (CSRF).
 **Regular Security Audits:** Automated security testing and regular audits to ensure vulnerabilities are identified and mitigated.
 # Domain-Driven Design (DDD) 📚
-The application follows the principles of Domain-Driven Design (DDD) to model complex domains effectively:
+**The application follows the principles of Domain-Driven Design (DDD) to model complex domains effectively:**
 
 **Event Storming:** A collaborative workshop technique used to explore and understand complex business processes. It helps in identifying key events, commands, and aggregates within the domain.
 
