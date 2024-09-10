@@ -1,21 +1,21 @@
-Social-Media: A Full-Featured Social Media Application Inspired by Instagram 🌟
+**Social-Media:** A Full-Featured Social Media Application Inspired by Instagram 🌟
 Social-Media is a comprehensive social media application designed to replicate and extend the core functionality of Instagram, providing a modern, scalable, and high-performance platform for social interaction. The application includes features such as user profiles, posts, stories, messaging, notifications, and more. Built with a microservices architecture, it leverages cutting-edge technologies like Docker, Kubernetes, reactive programming, and event-driven design patterns.
 
-Key Features 🚀
-User Authentication: Secure login and registration using JWT-based authentication, with support for social login (OAuth).
-Profile Management: Create, update, and manage user profiles, including profile pictures, bios, and privacy settings.
-Posts and Stories: Share photos, videos, and text posts with captions, tags, and locations. Create and view stories that disappear after 24 hours.
-Direct Messaging: Real-time one-to-one and group messaging using WebSockets for seamless communication.
-Content Engagement: Like, comment, share posts, and interact with stories using polls, questions, and quizzes.
-Follow System: Follow or unfollow users, view followers and following lists, and receive notifications for new follows.
-Notifications: Receive real-time notifications for likes, comments, follows, and messages.
-Content Moderation: Report inappropriate content and manage blocked users.
-Analytics: Gain insights into engagement metrics, such as reach, likes, and follower demographics.
-High Performance: Optimized for speed and scalability with reactive programming and event-driven architecture.
-Architecture and Technologies 🏗️
+**Key Features** 🚀
+**User Authentication:** Secure login and registration using JWT-based authentication, with support for social login (OAuth).
+**Profile Management:** Create, update, and manage user profiles, including profile pictures, bios, and privacy settings.
+**Posts and Stories:** Share photos, videos, and text posts with captions, tags, and locations. Create and view stories that disappear after 24 hours.
+**Direct Messaging:** Real-time one-to-one and group messaging using WebSockets for seamless communication.
+**Content Engagement:** Like, comment, share posts, and interact with stories using polls, questions, and quizzes.
+**Follow System:** Follow or unfollow users, view followers and following lists, and receive notifications for new follows.
+**Notifications:** Receive real-time notifications for likes, comments, follows, and messages.
+**Content Moderation:** Report inappropriate content and manage blocked users.
+**Analytics:** Gain insights into engagement metrics, such as reach, likes, and follower demographics.
+**High Performance:** Optimized for speed and scalability with reactive programming and event-driven architecture.
+**Architecture and Technologies **🏗️
 The backend is built using Java, Kotlin (Spring Boot), and Go, with a focus on microservices architecture. Each microservice is designed to be domain-centric and follows the principles of Domain-Driven Design (DDD) to ensure modularity, scalability, and ease of maintenance.
 
-Backend Stack:
+**Backend Stack:**
 Languages: Java, Kotlin, Go
 Framework: Spring Boot (Java, Kotlin), Gorilla (Go)
 Microservices: Designed with a domain-centric architecture, each service operates independently with its own domain logic and data storage.
@@ -25,7 +25,7 @@ Data Storage: Supports both SQL and NoSQL databases to meet various data needs.
 Caching: Implements caching with Redis for fast access to frequently requested data.
 Containerization: Dockerized microservices for consistent development and deployment environments.
 Orchestration: Kubernetes for automatic scaling, management, and deployment of microservices.
-Security 🔒
+**Security** 🔒
 The application is designed with a security-first approach to protect user data and ensure safe interactions:
 
 JWT Authentication: Secure user authentication using JWT tokens to manage sessions and API access.
@@ -59,4 +59,3 @@ Test-Driven Development (TDD): Ensures all features are thoroughly tested using 
 Behavior-Driven Development (BDD): Utilizes tools like Cucumber for behavior-driven testing, aligning tests with business requirements.
 Domain-Driven Design (DDD): Follows DDD principles to model complex domains and maintain a clear separation of concerns.
 Getting Started 🎉
-Follow these steps to set up and run the application locally.
