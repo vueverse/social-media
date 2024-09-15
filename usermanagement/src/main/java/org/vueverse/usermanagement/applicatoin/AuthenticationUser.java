@@ -21,13 +21,12 @@ public class AuthenticationUser {
     private final AuthenticationManager authenticationManager;
 
 
-    public UserEntity signup(RegisterUserDto input) {
-//        User user = new User()
-//                .setFullName(input.getFullName())
-//                .setEmail(input.getEmail())
-//                .setPassword(passwordEncoder.encode(input.getPassword()));
+    public void signup(RegisterUserDto input) {
+        var user = UserEntity.builder()
+                .email(input.getEmail())
+                .username(input.getUsername())
+                .password(passwordEncoder.encode(input.getPassword())).build();
 
-//        return userRepository.save(user);
     }
 
     public LoginResponse authenticate(LoginUserDto input) {
