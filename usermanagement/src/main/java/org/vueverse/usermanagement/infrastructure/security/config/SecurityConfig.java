@@ -1,5 +1,6 @@
 package org.vueverse.usermanagement.infrastructure.security.config;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -14,32 +15,29 @@ import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 import org.vueverse.usermanagement.infrastructure.security.filter.JWTTokenGeneratorFilter;
 import org.vueverse.usermanagement.infrastructure.security.filter.JWTTokenValidatorFilter;
 
+@RequiredArgsConstructor
 @Configuration
 public class SecurityConfig {
-
+    private final JWTTokenGeneratorFilter jwtTokenGeneratorFilter;
+    private final JWTTokenValidatorFilter jwtTokenValidatorFilter;
     private static final String REGISTER_URL = "/register";
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         var csrfTokenRequest = new CsrfTokenRequestAttributeHandler();
         csrfTokenRequest.setCsrfRequestAttributeName("csrfToken");
-        httpSecurity.securityContext((context) -> context.requireExplicitSave(false))
+        httpSecurity.securityContext(context -> context.requireExplicitSave(false))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .cors(cors -> cors.configurationSource(new CorsConfig()))
                 .csrf((csrf) -> csrf.csrfTokenRequestHandler(csrfTokenRequest)
                         .ignoringRequestMatchers(REGISTER_URL)
                         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
-                .addFilterAfter(new JWTTokenGeneratorFilter(), UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(new JWTTokenValidatorFilter(), UsernamePasswordAuthenticationFilter.class)
-                .authorizeHttpRequests((requests) -> requests.requestMatchers(REGISTER_URL).permitAll())
-//                .formLogin(Customizer.withDefaults())
-                .httpBasic(Customizer.withDefaults());
+                .addFilterAfter(jwtTokenGeneratorFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtTokenValidatorFilter, UsernamePasswordAuthenticationFilter.class)
+                .authorizeHttpRequests(requests -> requests.requestMatchers("/auth/**").permitAll());
+
         return httpSecurity.build();
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
 
 }
