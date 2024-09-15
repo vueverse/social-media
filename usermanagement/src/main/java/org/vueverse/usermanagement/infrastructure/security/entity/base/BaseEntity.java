@@ -1,4 +1,4 @@
-package org.vueverse.usermanagement.infrastructure.entity.base;
+package org.vueverse.usermanagement.infrastructure.security.entity.base;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
