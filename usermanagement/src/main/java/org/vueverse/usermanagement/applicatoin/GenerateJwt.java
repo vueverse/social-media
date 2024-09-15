@@ -1,4 +1,4 @@
-package org.vueverse.usermanagement.infrastructure.security.service;
+package org.vueverse.usermanagement.applicatoin;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -18,7 +18,7 @@ import static org.vueverse.usermanagement.infrastructure.security.SecurityConsta
 import static org.vueverse.usermanagement.infrastructure.security.SecurityConstants.JWT_KEY;
 
 @Service
-public class JwtService {
+public class GenerateJwt {
 
     public String extraUsername(String token) {
         return extractClaim(token, Claims::getSubject);
