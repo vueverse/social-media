@@ -26,4 +26,5 @@ public class UserEntity extends BaseEntity<Long> {
     @Column(name = "phonenumber", unique = true)
     private String phoneNumber;
 
+
 }

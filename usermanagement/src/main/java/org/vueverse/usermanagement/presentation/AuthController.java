@@ -5,11 +5,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.vueverse.usermanagement.applicatoin.AuthenticationUser;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("api/vi/authentication")
 public class AuthController {
 
     private final AuthenticationUser authenticationService;
@@ -22,7 +24,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> authenticate(@RequestBody LoginUserDto loginUserDto) {
-        LoginResponse loginResponse = authenticationService.authenticate(loginUserDto);
+        LoginResponse loginResponse = authenticationService.login(loginUserDto);
         return ResponseEntity.ok(loginResponse);
     }
 }

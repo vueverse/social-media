@@ -12,13 +12,15 @@ import org.vueverse.usermanagement.presentation.LoginResponse;
 import org.vueverse.usermanagement.presentation.LoginUserDto;
 import org.vueverse.usermanagement.presentation.RegisterUserDto;
 
+import java.util.Objects;
+
 import static org.vueverse.usermanagement.infrastructure.security.service.CustomUserDetailsService.getUserByUsernameOrEmailOrPhoneNumber;
 
 @RequiredArgsConstructor
 @Service
 public class AuthenticationUser {
 
-    private final UserMapper mapper;
+    private static final int MIN_LENGTH_OF_USER_NAME = 3;
     private final PasswordEncoder passwordEncoder;
     private final GenerateJwt generateJwt;
     private final UserJpaRepository userRepository;
@@ -32,12 +34,50 @@ public class AuthenticationUser {
     }
 
 
-    public LoginResponse authenticate(LoginUserDto loginUserDto) {
-        UserEntity user = mapper.convertToEntity(loginUserDto);
-//        user.getUsername() == null ? user.getEmail() : user.getUsername().v;
-//        jwtService.generateToken(user.getUsername())
+    public LoginResponse login(LoginUserDto loginUserDto) {
+        identifierValidation(loginUserDto);
         return null;
     }
+
+    private void identifierValidation(LoginUserDto loginUserDto) {
+        UserEntity user = validateLoginType(loginUserDto);
+
+    }
+
+    private UserEntity validateLoginType(LoginUserDto loginUserDto) {
+        final String identifier = loginUserDto.getIdentifier();
+        final String password = loginUserDto.getPassword();
+        return switch (loginUserDto.getLoginType()) {
+            case USERNAME -> {
+                validateUsername(identifier);
+                yield UserEntity.builder().username(identifier).password(password).build();
+            }
+            case EMAIL -> {
+                validateEmail(identifier);
+                yield UserEntity.builder().email(identifier).password(password).build();
+            }
+            case PHONE_NUMBER -> {
+                validatePhoneNumber(identifier);
+                yield UserEntity.builder().phoneNumber(identifier).password(password).build();
+            }
+        };
+    }
+
+    private void validatePhoneNumber(String phoneNumber) {
+
+    }
+
+    private void validateEmail(String email) {
+
+
+    }
+
+    private void validateUsername(String username) {
+        if (Objects.isNull(username) || username.isBlank() || username.length() < MIN_LENGTH_OF_USER_NAME)
+            throw new IllegalArgumentException("Username is not a valid ");
+
+    }
+
 
     private UserEntity createUserEntity(RegisterUserDto input) {
         return UserEntity.builder()
