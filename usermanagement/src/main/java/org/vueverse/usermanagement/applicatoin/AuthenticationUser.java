@@ -78,7 +78,6 @@ public class AuthenticationUser {
             throw new IllegalArgumentException("Username is not a valid ");
     }
 
-
     private UserEntity createUserEntity(RegisterUserDto registerUserDto) {
         var phoneNumber = new PhoneNumber(registerUserDto.getNumber(), registerUserDto.getRegin());
         return UserEntity.builder()
