@@ -26,7 +26,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         return new User(primaryIdentifier, user.getPassword(), new HashSet<>());
     }
 
-    private String getUserByUsernameOrEmailOrPhoneNumber(UserEntity user) {
+    public static String getUserByUsernameOrEmailOrPhoneNumber(UserEntity user) {
         return Optional.ofNullable(user.getEmail())
                 .or(() -> Optional.ofNullable(user.getPhoneNumber()))
                 .or(() -> Optional.ofNullable(user.getUsername()))
