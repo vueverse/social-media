@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import org.vueverse.usermanagement.infrastructure.security.entity.PhoneNumber;
 import org.vueverse.usermanagement.infrastructure.security.entity.UserEntity;
 import org.vueverse.usermanagement.infrastructure.security.repository.UserJpaRepository;
-import org.vueverse.usermanagement.presentation.LoginResponse;
+import org.vueverse.usermanagement.presentation.AuthResponse;
 import org.vueverse.usermanagement.presentation.LoginUserDto;
 import org.vueverse.usermanagement.presentation.RegisterUserDto;
 
@@ -27,16 +27,16 @@ public class AuthenticationUser {
     private final GenerateJwt generateJwt;
     private final UserJpaRepository userRepository;
 
-    public LoginResponse signup(RegisterUserDto input) {
+    public AuthResponse signup(RegisterUserDto input) {
         var user = createUserEntity(input);
         var userEntitySaved = userRepository.save(user);
         var userDetails = getUserDetails(userEntitySaved);
         String token = generateJwt.generateToken(userDetails);
-        return new LoginResponse(token, generateJwt.getExpirationTime());
+        return new AuthResponse(token, generateJwt.getExpirationTime());
     }
 
 
-    public LoginResponse login(LoginUserDto loginUserDto) {
+    public AuthResponse login(LoginUserDto loginUserDto) {
         identifierValidation(loginUserDto);
         return null;
     }
