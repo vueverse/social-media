@@ -24,7 +24,7 @@ public class UserEntity extends BaseEntity<Long> {
     @Column(name = "email", nullable = false, unique = true)
     private String email;
     @Column(name = "phonenumber", unique = true)
-    private String phoneNumber;
+    private PhoneNumber phoneNumber;
 
 
 }

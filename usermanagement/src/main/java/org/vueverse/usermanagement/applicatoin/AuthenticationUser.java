@@ -1,12 +1,14 @@
 package org.vueverse.usermanagement.applicatoin;
 
+import com.google.i18n.phonenumbers.PhoneNumberUtil;
+import com.google.i18n.phonenumbers.Phonenumber;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.vueverse.usermanagement.infrastructure.security.entity.UserEntity;
-import org.vueverse.usermanagement.infrastructure.security.mapper.UserMapper;
 import org.vueverse.usermanagement.infrastructure.security.repository.UserJpaRepository;
 import org.vueverse.usermanagement.presentation.LoginResponse;
 import org.vueverse.usermanagement.presentation.LoginUserDto;
@@ -63,19 +65,18 @@ public class AuthenticationUser {
         };
     }
 
-    private void validatePhoneNumber(String phoneNumber) {
 
-    }
 
     private void validateEmail(String email) {
-
-
+        var instance = EmailValidator.getInstance();
+        boolean isValidEmailAddress = instance.isValid(email);
+        if (!isValidEmailAddress)
+            throw new IllegalArgumentException("email is not valid");
     }
 
     private void validateUsername(String username) {
         if (Objects.isNull(username) || username.isBlank() || username.length() < MIN_LENGTH_OF_USER_NAME)
             throw new IllegalArgumentException("Username is not a valid ");
-
     }
 
 
