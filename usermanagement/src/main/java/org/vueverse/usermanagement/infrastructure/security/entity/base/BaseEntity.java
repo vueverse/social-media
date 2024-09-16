@@ -3,6 +3,7 @@ package org.vueverse.usermanagement.infrastructure.security.entity.base;
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
 
@@ -10,7 +11,7 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
 @MappedSuperclass
 public abstract class BaseEntity<ID> {
 

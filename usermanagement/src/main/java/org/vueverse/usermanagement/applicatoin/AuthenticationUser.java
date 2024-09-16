@@ -1,8 +1,6 @@
 package org.vueverse.usermanagement.applicatoin;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.vueverse.usermanagement.infrastructure.security.entity.UserEntity;
@@ -15,19 +13,22 @@ import org.vueverse.usermanagement.presentation.RegisterUserDto;
 @RequiredArgsConstructor
 @Service
 public class AuthenticationUser {
-    private final UserJpaRepository userRepository;
+
     private final UserMapper mapper;
-    private final GenerateJwt jwtService;
     private final PasswordEncoder passwordEncoder;
-    private final AuthenticationManager authenticationManager;
+    private final GenerateJwt generateJwt;
+    private final UserJpaRepository userRepository;
 
-
-    public void signup(RegisterUserDto input) {
+    public LoginResponse signup(RegisterUserDto input) {
         var user = UserEntity.builder()
                 .email(input.getEmail())
                 .username(input.getUsername())
+                .phoneNumber(input.getPhoneNumber())
                 .password(passwordEncoder.encode(input.getPassword())).build();
+        var userEntitySaved = userRepository.save(user);
 
+        String token = generateJwt.generateToken(userEntitySaved);
+        return new LoginResponse(token, generateJwt.getExpirationTime());
     }
 
     public LoginResponse authenticate(LoginUserDto loginUserDto) {
