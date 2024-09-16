@@ -28,7 +28,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     public static String getUserByUsernameOrEmailOrPhoneNumber(UserEntity user) {
         return Optional.ofNullable(user.getEmail())
-                .or(() -> Optional.ofNullable(user.getPhoneNumber()))
+                .or(() -> Optional.of(user.getNumberOfPhoneNumber() + user.getReginOfPhoneNumber()))
                 .or(() -> Optional.ofNullable(user.getUsername()))
                 .orElseThrow(() -> new IllegalArgumentException("user must have email or phone number or username  "));
     }

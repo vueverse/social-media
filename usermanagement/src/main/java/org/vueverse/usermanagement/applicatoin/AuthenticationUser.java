@@ -1,13 +1,12 @@
 package org.vueverse.usermanagement.applicatoin;
 
-import com.google.i18n.phonenumbers.PhoneNumberUtil;
-import com.google.i18n.phonenumbers.Phonenumber;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.vueverse.usermanagement.infrastructure.security.entity.PhoneNumber;
 import org.vueverse.usermanagement.infrastructure.security.entity.UserEntity;
 import org.vueverse.usermanagement.infrastructure.security.repository.UserJpaRepository;
 import org.vueverse.usermanagement.presentation.LoginResponse;
@@ -16,6 +15,7 @@ import org.vueverse.usermanagement.presentation.RegisterUserDto;
 
 import java.util.Objects;
 
+import static org.vueverse.usermanagement.infrastructure.security.entity.PhoneNumber.createPhoneNumber;
 import static org.vueverse.usermanagement.infrastructure.security.service.CustomUserDetailsService.getUserByUsernameOrEmailOrPhoneNumber;
 
 @RequiredArgsConstructor
@@ -59,12 +59,11 @@ public class AuthenticationUser {
                 yield UserEntity.builder().email(identifier).password(password).build();
             }
             case PHONE_NUMBER -> {
-                validatePhoneNumber(identifier);
-                yield UserEntity.builder().phoneNumber(identifier).password(password).build();
+                var phoneNumber = createPhoneNumber(loginUserDto);
+                yield UserEntity.builder().phoneNumber(phoneNumber).password(password).build();
             }
         };
     }
-
 
 
     private void validateEmail(String email) {
@@ -80,13 +79,15 @@ public class AuthenticationUser {
     }
 
 
-    private UserEntity createUserEntity(RegisterUserDto input) {
+    private UserEntity createUserEntity(RegisterUserDto registerUserDto) {
+        var phoneNumber = new PhoneNumber(registerUserDto.getNumber(), registerUserDto.getRegin());
         return UserEntity.builder()
-                .email(input.getEmail())
-                .username(input.getUsername())
-                .phoneNumber(input.getPhoneNumber())
-                .password(passwordEncoder.encode(input.getPassword())).build();
+                .email(registerUserDto.getEmail())
+                .username(registerUserDto.getUsername())
+                .phoneNumber(phoneNumber)
+                .password(passwordEncoder.encode(registerUserDto.getPassword())).build();
     }
+
 
     private UserDetails getUserDetails(UserEntity userEntitySaved) {
         String identified = getUserByUsernameOrEmailOrPhoneNumber(userEntitySaved);

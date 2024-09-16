@@ -24,7 +24,14 @@ public class UserEntity extends BaseEntity<Long> {
     @Column(name = "email", nullable = false, unique = true)
     private String email;
     @Column(name = "phonenumber", unique = true)
+    @Embedded
     private PhoneNumber phoneNumber;
 
+    public String getNumberOfPhoneNumber() {
+        return phoneNumber.getNumber();
+    }
 
+    public String getReginOfPhoneNumber() {
+        return phoneNumber.getNumber();
+    }
 }
