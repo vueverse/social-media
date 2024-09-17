@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.vueverse.usermanagement.infrastructure.security.entity.PhoneNumber;
@@ -37,12 +38,27 @@ public class AuthenticationUser {
 
 
     public AuthResponse login(LoginUserDto loginUserDto) {
-        identifierValidation(loginUserDto);
-        return null;
+        UserEntity userEntity = identifierValidation(loginUserDto);
+
+        if (!isMatchesPassword(loginUserDto, userEntity))
+            throw new IllegalArgumentException("password is not valid");
+
+        UserEntity user = userRepository.findByUsernameOrEmailOrPhoneNumber(loginUserDto.getIdentifier())
+                .orElseThrow(() -> new UsernameNotFoundException("user not found"));
+
+        UserDetails userDetails = getUserDetails(user);
+
+        String token = generateJwt.generateToken(userDetails);
+
+        return new AuthResponse(token, generateJwt.getExpirationTime());
     }
 
-    private void identifierValidation(LoginUserDto loginUserDto) {
-        UserEntity user = validateLoginType(loginUserDto);
+    private boolean isMatchesPassword(LoginUserDto loginUserDto, UserEntity userEntity) {
+        return passwordEncoder.matches(loginUserDto.getPassword(), userEntity.getPassword());
+    }
+
+    private UserEntity identifierValidation(LoginUserDto loginUserDto) {
+        return validateLoginType(loginUserDto);
 
     }
 
