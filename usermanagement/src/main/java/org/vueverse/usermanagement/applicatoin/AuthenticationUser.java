@@ -42,8 +42,8 @@ public class AuthenticationUser {
     public AuthResponse login(LoginUserDto loginUserDto) {
         UserEntity userEntity = identifierValidation(loginUserDto);
 
-        if (!isMatchesPassword(loginUserDto, userEntity))
-            throw new IllegalArgumentException("password is not valid");
+//        if (!isMatchesPassword(loginUserDto, userEntity))
+//            throw new IllegalArgumentException("password is not valid");
 
         UserEntity user = userRepository.findByUsernameOrEmailOrPhoneNumber(loginUserDto.getIdentifier())
                 .orElseThrow(() -> new UsernameNotFoundException("user not found"));
@@ -55,9 +55,9 @@ public class AuthenticationUser {
         return new AuthResponse(token, generateJwt.getExpirationTime());
     }
 
-    private boolean isMatchesPassword(LoginUserDto loginUserDto, UserEntity userEntity) {
-        return passwordEncoder.matches(loginUserDto.getPassword(), userEntity.getPassword());
-    }
+//    private boolean isMatchesPassword(LoginUserDto loginUserDto, UserEntity userEntity) {
+//        return passwordEncoder.matches(loginUserDto.getPassword(), userEntity.getPassword());
+//    }
 
     private UserEntity identifierValidation(LoginUserDto loginUserDto) {
         return validateLoginType(loginUserDto);
