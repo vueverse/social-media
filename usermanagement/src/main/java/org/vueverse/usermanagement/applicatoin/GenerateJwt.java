@@ -7,6 +7,7 @@ import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.vueverse.usermanagement.infrastructure.security.SecurityConstants;
+import org.vueverse.usermanagement.infrastructure.security.UserContextModel;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
@@ -19,10 +20,8 @@ import static org.vueverse.usermanagement.infrastructure.security.SecurityConsta
 
 @Service
 public class GenerateJwt {
+    private static final String CLAIM_USER_ID = "userId";
 
-    public String extraUsername(String token) {
-        return extractClaim(token, Claims::getSubject);
-    }
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -33,8 +32,13 @@ public class GenerateJwt {
         return claimsResolver.apply(claims);
     }
 
-    public String generateToken(UserDetails userDetails) {
-        return generateToken(new HashMap<>(), userDetails);
+    public String generateToken(UserDetails user) {
+        HashMap<String, Object> extraClaims = new HashMap<>();
+        if (user instanceof UserContextModel userContextModel) {
+            extraClaims.put(CLAIM_USER_ID, userContextModel.getUserId());
+        }
+
+        return generateToken(extraClaims, user);
     }
 
     public long getExpirationTime() {

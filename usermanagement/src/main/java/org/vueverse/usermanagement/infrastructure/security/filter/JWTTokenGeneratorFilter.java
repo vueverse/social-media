@@ -7,11 +7,10 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import org.vueverse.usermanagement.infrastructure.security.SecurityConstants;
 import org.vueverse.usermanagement.applicatoin.GenerateJwt;
+import org.vueverse.usermanagement.infrastructure.security.SecurityConstants;
 import org.vueverse.usermanagement.infrastructure.security.service.CustomUserDetailsService;
 
 import java.io.IOException;
