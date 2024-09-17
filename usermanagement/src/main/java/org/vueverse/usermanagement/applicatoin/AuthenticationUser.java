@@ -10,9 +10,9 @@ import org.springframework.stereotype.Service;
 import org.vueverse.usermanagement.infrastructure.security.entity.PhoneNumber;
 import org.vueverse.usermanagement.infrastructure.security.entity.UserEntity;
 import org.vueverse.usermanagement.infrastructure.security.repository.UserJpaRepository;
-import org.vueverse.usermanagement.presentation.AuthResponse;
-import org.vueverse.usermanagement.presentation.LoginUserDto;
-import org.vueverse.usermanagement.presentation.RegisterUserDto;
+import org.vueverse.usermanagement.presentation.dto.AuthResponse;
+import org.vueverse.usermanagement.presentation.dto.LoginUserDto;
+import org.vueverse.usermanagement.presentation.dto.RegisterUserDto;
 
 import java.util.Objects;
 

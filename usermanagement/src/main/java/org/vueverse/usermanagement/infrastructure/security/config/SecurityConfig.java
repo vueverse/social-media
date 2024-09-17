@@ -36,7 +36,9 @@ public class SecurityConfig {
                 .addFilterAfter(csrfCookieFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterAfter(jwtTokenGeneratorFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(jwtTokenValidatorFilter, UsernamePasswordAuthenticationFilter.class)
-                .authorizeHttpRequests(requests -> requests.requestMatchers("/api/vi/authentication/**").permitAll());
+                .authorizeHttpRequests(requests -> requests
+                        .requestMatchers("/api/v1/welcome/**").authenticated()
+                        .requestMatchers("/api/vi/authentication/**").permitAll());
 
         return httpSecurity.build();
     }

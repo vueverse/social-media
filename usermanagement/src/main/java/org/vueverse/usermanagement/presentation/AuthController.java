@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.vueverse.usermanagement.applicatoin.AuthenticationUser;
+import org.vueverse.usermanagement.presentation.dto.AuthResponse;
+import org.vueverse.usermanagement.presentation.dto.LoginUserDto;
+import org.vueverse.usermanagement.presentation.dto.RegisterUserDto;
 
 @RestController
 @RequiredArgsConstructor

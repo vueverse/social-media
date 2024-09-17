@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.vueverse.usermanagement.applicatoin.PhoneNumberValidation;
-import org.vueverse.usermanagement.presentation.LoginUserDto;
+import org.vueverse.usermanagement.presentation.dto.LoginUserDto;
 
 @Getter
 @AllArgsConstructor

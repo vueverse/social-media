@@ -1,4 +1,4 @@
-package org.vueverse.usermanagement.presentation;
+package org.vueverse.usermanagement.presentation.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
