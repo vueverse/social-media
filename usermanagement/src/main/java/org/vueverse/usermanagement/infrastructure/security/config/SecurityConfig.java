@@ -11,6 +11,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
+import org.vueverse.usermanagement.infrastructure.security.filter.CsrfCookieFilter;
 import org.vueverse.usermanagement.infrastructure.security.filter.JWTTokenGeneratorFilter;
 import org.vueverse.usermanagement.infrastructure.security.filter.JWTTokenValidatorFilter;
 
@@ -19,6 +20,7 @@ import org.vueverse.usermanagement.infrastructure.security.filter.JWTTokenValida
 public class SecurityConfig {
     private final JWTTokenGeneratorFilter jwtTokenGeneratorFilter;
     private final JWTTokenValidatorFilter jwtTokenValidatorFilter;
+    private final CsrfCookieFilter csrfCookieFilter;
     private static final String REGISTER_URL = "/api/vi/authentication/register";
 
     @Bean
@@ -31,6 +33,7 @@ public class SecurityConfig {
                 .csrf((csrf) -> csrf.csrfTokenRequestHandler(csrfTokenRequest)
                         .ignoringRequestMatchers(REGISTER_URL)
                         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
+                .addFilterAfter(csrfCookieFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterAfter(jwtTokenGeneratorFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(jwtTokenValidatorFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(requests -> requests.requestMatchers("/api/vi/authentication/**").permitAll());
