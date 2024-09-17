@@ -7,11 +7,10 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import org.vueverse.usermanagement.infrastructure.security.SecurityConstants;
 import org.vueverse.usermanagement.applicatoin.GenerateJwt;
+import org.vueverse.usermanagement.infrastructure.security.SecurityConstants;
 import org.vueverse.usermanagement.infrastructure.security.service.CustomUserDetailsService;
 
 import java.io.IOException;
@@ -31,8 +30,8 @@ public class JWTTokenGeneratorFilter extends OncePerRequestFilter {
         if (null != authentication) {
             String username = (String) authentication.getPrincipal();
             var userDetails = userDetailsService.loadUserByUsername(username);
-//            String jwt = jwtService.generateToken(asdf,userDetails);
-//            response.setHeader(SecurityConstants.JWT_HEADER, jwt);
+            String jwt = jwtService.generateToken(userDetails);
+            response.setHeader(SecurityConstants.JWT_HEADER, jwt);
         }
 
         filterChain.doFilter(request, response);
