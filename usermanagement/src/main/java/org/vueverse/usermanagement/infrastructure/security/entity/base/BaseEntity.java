@@ -20,7 +20,7 @@ public abstract class BaseEntity<ID> {
     private LocalDateTime createdDate = LocalDateTime.now();
 
     @Column(name = "updated_date", columnDefinition = "timestamp", nullable = false)
-    private LocalDateTime updatedDate;
+    private LocalDateTime updatedDate = LocalDateTime.now();
     @Column(name = "deleted", columnDefinition = "timestamp")
     private LocalDateTime deleted;
 

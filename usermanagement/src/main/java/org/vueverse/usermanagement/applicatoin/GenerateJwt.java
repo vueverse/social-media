@@ -4,11 +4,9 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.vueverse.usermanagement.infrastructure.security.SecurityConstants;
-import org.vueverse.usermanagement.infrastructure.security.entity.UserEntity;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
@@ -18,7 +16,6 @@ import java.util.function.Function;
 
 import static org.vueverse.usermanagement.infrastructure.security.SecurityConstants.JWT_EXPIRATION;
 import static org.vueverse.usermanagement.infrastructure.security.SecurityConstants.JWT_KEY;
-import static org.vueverse.usermanagement.infrastructure.security.service.CustomUserDetailsService.getUserByUsernameOrEmailOrPhoneNumber;
 
 @Service
 public class GenerateJwt {
@@ -68,7 +65,7 @@ public class GenerateJwt {
                 .subject(userDetails.getUsername())
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + SecurityConstants.JWT_EXPIRATION))
-                .signWith(getSignInKey(), Jwts.SIG.HS256)
+                .signWith(getSignInKey(), Jwts.SIG.HS512)
                 .compact();
     }
 
