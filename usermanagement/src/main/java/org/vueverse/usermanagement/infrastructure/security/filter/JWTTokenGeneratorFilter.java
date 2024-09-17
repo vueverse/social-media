@@ -31,8 +31,8 @@ public class JWTTokenGeneratorFilter extends OncePerRequestFilter {
         if (null != authentication) {
             String username = (String) authentication.getPrincipal();
             var userDetails = userDetailsService.loadUserByUsername(username);
-            String jwt = jwtService.generateToken(userDetails);
-            response.setHeader(SecurityConstants.JWT_HEADER, jwt);
+//            String jwt = jwtService.generateToken(asdf,userDetails);
+//            response.setHeader(SecurityConstants.JWT_HEADER, jwt);
         }
 
         filterChain.doFilter(request, response);

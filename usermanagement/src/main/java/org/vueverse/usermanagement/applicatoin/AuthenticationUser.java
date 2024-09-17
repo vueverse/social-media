@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.vueverse.usermanagement.infrastructure.security.UserContextModel;
 import org.vueverse.usermanagement.infrastructure.security.entity.PhoneNumber;
 import org.vueverse.usermanagement.infrastructure.security.entity.UserEntity;
 import org.vueverse.usermanagement.infrastructure.security.repository.UserJpaRepository;
@@ -14,6 +15,7 @@ import org.vueverse.usermanagement.presentation.dto.AuthResponse;
 import org.vueverse.usermanagement.presentation.dto.LoginUserDto;
 import org.vueverse.usermanagement.presentation.dto.RegisterUserDto;
 
+import java.util.HashSet;
 import java.util.Objects;
 
 import static org.vueverse.usermanagement.infrastructure.security.entity.PhoneNumber.createPhoneNumber;
@@ -81,7 +83,6 @@ public class AuthenticationUser {
         };
     }
 
-
     private void validateEmail(String email) {
         var instance = EmailValidator.getInstance();
         boolean isValidEmailAddress = instance.isValid(email);
@@ -103,12 +104,7 @@ public class AuthenticationUser {
                 .password(passwordEncoder.encode(registerUserDto.getPassword())).build();
     }
 
-
-    private UserDetails getUserDetails(UserEntity userEntitySaved) {
-        String identified = getUserByUsernameOrEmailOrPhoneNumber(userEntitySaved);
-        return User.builder()
-                .username(identified)
-                .password(userEntitySaved.getPassword())
-                .build();
+    private User getUserDetails(UserEntity userEntitySaved) {
+        return new UserContextModel(userEntitySaved, new HashSet<>());
     }
 }
