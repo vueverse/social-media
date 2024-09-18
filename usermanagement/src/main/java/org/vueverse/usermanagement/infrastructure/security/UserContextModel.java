@@ -17,6 +17,7 @@ public class UserContextModel extends User {
     private String phoneNumber;
     private String email;
 
+
     public UserContextModel(UserEntity userEntity, Collection<? extends GrantedAuthority> authorities) {
         super(getUserByUsernameOrEmailOrPhoneNumber(userEntity), userEntity.getPassword(), authorities);
         this.userId = userEntity.getId();
@@ -24,10 +25,6 @@ public class UserContextModel extends User {
         this.email = userEntity.getEmail();
     }
 
-    @Override
-    public String getUsername() {
-        return email;
-    }
 
     @Override
     public boolean isAccountNonExpired() {

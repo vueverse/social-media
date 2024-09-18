@@ -24,13 +24,8 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody LoginUserDto loginUserDto) {
-        try {
-            AuthResponse loginResponse = authenticationService.login(loginUserDto);
-            return ResponseEntity.ok(loginResponse);
-        } catch (Exception e) {
-            return ResponseEntity.noContent().build();
-        }
-
+        AuthResponse loginResponse = authenticationService.login(loginUserDto);
+        return ResponseEntity.ok(loginResponse);
     }
 
     @PostMapping("/logout")
