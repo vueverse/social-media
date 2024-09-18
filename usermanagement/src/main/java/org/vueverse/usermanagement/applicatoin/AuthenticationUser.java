@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.vueverse.usermanagement.infrastructure.AuthUser;
 import org.vueverse.usermanagement.infrastructure.security.UserContextModel;
 import org.vueverse.usermanagement.infrastructure.security.entity.PhoneNumber;
 import org.vueverse.usermanagement.infrastructure.security.entity.UserEntity;
@@ -41,17 +42,13 @@ public class AuthenticationUser {
     public AuthResponse login(LoginUserDto loginUserDto) {
         identifierValidation(loginUserDto);
 
-
         UserEntity user = userRepository.findByUsernameOrEmailOrPhoneNumber(loginUserDto.getIdentifier())
                 .orElseThrow(() -> new UsernameNotFoundException("user not found"));
 
         if (!(passwordEncoder.matches(loginUserDto.getPassword(), user.getPassword()))) {
             throw new IllegalArgumentException("password is not valid");
         }
-
-
         UserDetails userDetails = getUserDetails(user);
-
         String token = generateJwt.generateToken(userDetails);
 
         return new AuthResponse(token, generateJwt.getExpirationTime());
@@ -103,5 +100,10 @@ public class AuthenticationUser {
 
     private User getUserDetails(UserEntity userEntitySaved) {
         return new UserContextModel(userEntitySaved, new HashSet<>());
+    }
+
+    public void logout() {
+        Long userId = AuthUser.getAuthUser().getUserId();
+        System.out.println("its ok " + userId);
     }
 }
