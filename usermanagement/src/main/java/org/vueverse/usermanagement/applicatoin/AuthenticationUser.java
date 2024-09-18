@@ -42,17 +42,13 @@ public class AuthenticationUser {
     public AuthResponse login(LoginUserDto loginUserDto) {
         identifierValidation(loginUserDto);
 
-
         UserEntity user = userRepository.findByUsernameOrEmailOrPhoneNumber(loginUserDto.getIdentifier())
                 .orElseThrow(() -> new UsernameNotFoundException("user not found"));
 
         if (!(passwordEncoder.matches(loginUserDto.getPassword(), user.getPassword()))) {
             throw new IllegalArgumentException("password is not valid");
         }
-
-
         UserDetails userDetails = getUserDetails(user);
-
         String token = generateJwt.generateToken(userDetails);
 
         return new AuthResponse(token, generateJwt.getExpirationTime());

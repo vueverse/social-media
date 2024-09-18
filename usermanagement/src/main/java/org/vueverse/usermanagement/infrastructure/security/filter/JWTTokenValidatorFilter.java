@@ -11,14 +11,15 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.vueverse.usermanagement.applicatoin.GenerateJwt;
+import org.vueverse.usermanagement.infrastructure.security.service.CustomUserDetailsService;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 @Slf4j
@@ -26,7 +27,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class JWTTokenValidatorFilter extends OncePerRequestFilter {
     private final GenerateJwt jwtService;
-    private final UserDetailsService userDetailsService;
+    private final CustomUserDetailsService userDetailsService;
     private final HandlerExceptionResolver handlerExceptionResolver;
 
     @Override
@@ -45,7 +46,7 @@ public class JWTTokenValidatorFilter extends OncePerRequestFilter {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             log.info("{}", authentication);
             if (userEmail != null && authentication == null) {
-                UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
+                UserDetails userDetails = userDetailsService.loadUserByUsername(userEmail);
                 log.info("{}", userDetails);
                 if (jwtService.isTokenValid(jwt, userDetails)) {
                     var authToken = new UsernamePasswordAuthenticationToken(userDetails, null, List.of());
@@ -58,6 +59,9 @@ public class JWTTokenValidatorFilter extends OncePerRequestFilter {
 
             filterChain.doFilter(request, response);
         } catch (Exception exception) {
+            log.error("", exception);
+            log.debug("{}",  Arrays.toString(exception.getStackTrace()));
+            log.error("{}", exception.getMessage());
             response.setStatus(500);
             handlerExceptionResolver.resolveException(request, response, null, exception);
         }
