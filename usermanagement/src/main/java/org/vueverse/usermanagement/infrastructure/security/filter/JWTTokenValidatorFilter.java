@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.vueverse.usermanagement.applicatoin.GenerateJwt;
+import org.vueverse.usermanagement.infrastructure.security.UserContextModel;
 
 import java.io.IOException;
 
@@ -39,11 +40,11 @@ public class JWTTokenValidatorFilter extends OncePerRequestFilter {
         try {
             final String jwt = authHeader.substring(7);
             final String userEmail = jwtService.extractUsername(jwt);
-
+            UserContextModel userDetails;
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
             if (userEmail != null && authentication == null) {
-                var userDetails = this.userDetailsService.loadUserByUsername(userEmail);
+//                 userDetails = this.userDetailsService.loadUserByUsername(userEmail);
 
                 if (jwtService.isTokenValid(jwt, userDetails)) {
                     var authToken = new UsernamePasswordAuthenticationToken(userDetails, null,

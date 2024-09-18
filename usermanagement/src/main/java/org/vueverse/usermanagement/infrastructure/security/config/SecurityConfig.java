@@ -28,9 +28,10 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .addFilterAfter(jwtTokenGeneratorFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(jwtTokenValidatorFilter, UsernamePasswordAuthenticationFilter.class)
+                .logout(logout -> logout.logoutSuccessUrl("/api/v1/authentication/logout"))
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers("/api/v1/welcome/**").authenticated()
-                        .requestMatchers("/api/vi/authentication/**").permitAll());
+                        .requestMatchers("/api/v1/authentication/**").permitAll());
 
         return httpSecurity.build();
     }
