@@ -23,29 +23,8 @@ public class UserContextModel extends User {
         super(getUserByUsernameOrEmailOrPhoneNumber(userEntity), userEntity.getPassword(), authorities);
         this.userId = userEntity.getId();
         this.phoneNumber = userEntity.getNumberOfPhoneNumber();
+        this.username = userEntity.getUsername();
         this.email = userEntity.getEmail();
     }
 
-
-    // Other getters and setters...
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
 }

@@ -36,9 +36,10 @@ public class GenerateJwt {
         HashMap<String, Object> extraClaims = new HashMap<>();
         if (user instanceof UserContextModel userContextModel) {
             extraClaims.put(CLAIM_USER_ID, userContextModel.getUserId());
+            return buildToken(extraClaims, userContextModel);
         }
+        return buildToken(extraClaims, user);
 
-        return generateToken(extraClaims, user);
     }
 
     public long getExpirationTime() {
@@ -50,9 +51,6 @@ public class GenerateJwt {
         return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
     }
 
-    public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
-        return buildToken(extraClaims, userDetails);
-    }
 
     private boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
