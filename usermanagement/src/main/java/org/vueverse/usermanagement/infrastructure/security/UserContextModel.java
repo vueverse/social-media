@@ -18,6 +18,7 @@ public class UserContextModel extends User {
     private String email;
     private String username;
 
+
     public UserContextModel(UserEntity userEntity, Collection<? extends GrantedAuthority> authorities) {
         super(getUserByUsernameOrEmailOrPhoneNumber(userEntity), userEntity.getPassword(), authorities);
         this.userId = userEntity.getId();
@@ -25,10 +26,6 @@ public class UserContextModel extends User {
         this.email = userEntity.getEmail();
     }
 
-    @Override
-    public String getUsername() {
-        return email;
-    }
 
     // Other getters and setters...
 
