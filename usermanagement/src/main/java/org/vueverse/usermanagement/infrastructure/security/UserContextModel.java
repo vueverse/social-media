@@ -23,4 +23,29 @@ public class UserContextModel extends User {
         this.phoneNumber = userEntity.getNumberOfPhoneNumber();
         this.email = userEntity.getEmail();
     }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }
