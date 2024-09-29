@@ -3,7 +3,7 @@ package org.vueverse.usermanagement.presentation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+
 import org.springframework.web.bind.annotation.*;
 import org.vueverse.usermanagement.applicatoin.AuthenticationUser;
 import org.vueverse.usermanagement.presentation.dto.AuthResponse;
@@ -17,10 +17,10 @@ public class AuthController {
 
     private final AuthenticationUser authenticationService;
 
-    @GetMapping("/")
-    public String oath(OAuth2AuthenticationToken token) {
-        return token.getPrincipal().toString();
-    }
+//    @GetMapping("/")
+//    public String oath(OAuth2AuthenticationToken token) {
+//        return token.getPrincipal().toString();
+//    }
 
     @PostMapping("/register")
     public ResponseEntity<AuthResponse> register(@RequestBody RegisterUserDto registerUserDto) {
