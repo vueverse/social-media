@@ -9,23 +9,29 @@ import org.springframework.security.config.Customizer;
 
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.web.SecurityFilterChain;
-
-
 
 
 @RequiredArgsConstructor
 @Configuration
 public class SecurityConfig {
-//    private final JWTTokenGeneratorFilter jwtTokenGeneratorFilter;
+    //    private final JWTTokenGeneratorFilter jwtTokenGeneratorFilter;
 //    private final JWTTokenValidatorFilter jwtTokenValidatorFilter;
 //    @Value("&{spring.security.oauth2.resourceserver.jwt.jwk-set-uri}")
 //    private String jwkSetUri;
 
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests(requests -> requests.anyRequest().authenticated())
-                .oauth2Login(Customizer.withDefaults());
+        var jwtAuthenticationConverter = new JwtAuthenticationConverter();
+        jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(new Keycloak());
+        http.authorizeHttpRequests
+                        (requests -> requests
+                                .requestMatchers("api/v1/authentication/register").permitAll())
+                .oauth2ResourceServer(oauth2ResourceServerCustomizer ->
+                        oauth2ResourceServerCustomizer.
+                                jwt(jwtCustomizer -> jwtCustomizer.jwtAuthenticationConverter(jwtAuthenticationConverter)));
+
         return http.build();
     }
 
